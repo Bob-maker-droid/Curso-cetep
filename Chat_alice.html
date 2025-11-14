@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Alice</title>
+  <style>
+    body {
+      zoom: 140%;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #cbb2ff, #ffe3ec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      width: 380px;
+      height: 520px;
+      background: #ffffffb5;
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      overflow: hidden;
+      animation: fadeIn 1s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      max-width: 75%;
+      margin: 6px 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      word-wrap: break-word;
+      font-size: 15px;
+      line-height: 1.4;
+      animation: slideUp 0.4s ease;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #dcb4ff;
+      color: #2e003e;
+      border-bottom-right-radius: 2px;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background: #f1f0f0;
+      color: #333;
+      border-bottom-left-radius: 2px;
+    }
+
+    .input-box {
+      display: flex;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      padding: 8px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      background: #f3f3f3;
+      font-size: 15px;
+      transition: background 0.3s ease;
+    }
+
+    input:focus {
+      background: #ece6ff;
+    }
+
+    button {
+      background: #a23fff;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      margin-left: 6px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    button:hover {
+      background-color: #c04aff;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: #555;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box"></div>
+    <div class="input-box">
+      <input type="text" id="user-input" placeholder="Digite algo para Alice...">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const input = document.getElementById("user-input");
+
+    async function sendMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      appendMessage(message, "user");
+      input.value = "";
+
+      // Mostra indicador de digitação
+      const typing = document.createElement("div");
+      typing.className = "message bot typing";
+      typing.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Simula atraso de resposta
+      const response = await fetch("http://127.0.0.1:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      const data = await response.json();
+
+      // Remove o indicador
+      typing.remove();
+
+      appendMessage(data.response, "bot");
+    }
+
+    function appendMessage(text, sender) {
+      const msg = document.createElement("div");
+      msg.className = `message ${sender}`;
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Enviar com Enter
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>

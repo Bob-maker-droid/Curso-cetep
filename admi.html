@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel de Administração</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e6fdff, #f3fdff);
+      color: #333;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2a4d69;
+      font-size: 2.5em;
+    }
+
+    select {
+      display: block;
+      margin: 0 auto 20px auto;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    select:hover {
+      border-color: #0084ff;
+    }
+
+    .editable {
+      display: block;
+      width: 100%;
+      max-width: 700px;
+      margin: 10px auto;
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      min-height: 30px;
+      transition: all 0.3s;
+    }
+
+    .editable:focus {
+      border-color: #0084ff;
+      box-shadow: 0 0 8px rgba(0, 132, 255, 0.3);
+      outline: none;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #save-btn {
+      color: #fff;
+      background-color: #4c77af;
+    }
+
+    #save-btn:hover {
+      background-color: #0059ff;
+      transform: scale(1.05);
+    }
+
+    #add-image-btn {
+      color: #fff;
+      background-color: #36b37e;
+    }
+
+    #add-image-btn:hover {
+      background-color: #2e9c6d;
+      transform: scale(1.05);
+    }
+
+    #preview-img {
+      display: block;
+      margin: 15px auto;
+      max-width: 500px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Painel de Administração</h1>
+
+<select id="course-select">
+  <option value="ANALISES">Análises Clínicas</option>
+  <option value="AGRO-ECOLOGIA">Agroecologia</option>
+  <option value="EDIFICACOES">Edificações</option>
+  <option value="INFORMATICA">Informática</option>
+  <option value="QUIMICA">Química</option>
+</select>
+
+<div>
+  <h2 contenteditable="true" class="editable">Título do Curso</h2>
+  <p contenteditable="true" class="editable">Descrição do curso...</p>
+  
+  <h3>Horários</h3>
+  <button id="add-image-btn">Adicionar imagem de horários</button>
+  <input type="file" id="image-upload" accept="image/*" style="display:none;">
+  <img id="preview-img" src="" alt="Prévia da imagem" style="display:none;">
+
+  <h3 contenteditable="true" class="editable">Contatos</h3>
+  <p contenteditable="true" class="editable">Informações de contato...</p>
+</div>
+
+<button id="save-btn">Salvar e Abrir Página do Curso</button>
+
+<script>
+const courseSelect = document.getElementById('course-select');
+const saveBtn = document.getElementById('save-btn');
+const editables = document.querySelectorAll('.editable');
+const imageUpload = document.getElementById('image-upload');
+const addImageBtn = document.getElementById('add-image-btn');
+const previewImg = document.getElementById('preview-img');
+
+let imgData = ""; // vai guardar a imagem em Base64
+
+addImageBtn.onclick = () => imageUpload.click();
+
+imageUpload.addEventListener("change", function() {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      imgData = e.target.result;
+      previewImg.src = imgData;
+      previewImg.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function loadEditor() {
+  const course = courseSelect.value;
+  const data = localStorage.getItem(`curso-${course}`);
+  if (data) {
+  const arr = JSON.parse(data);
+  editables[0].innerHTML = arr[0] || ''; // título
+  editables[1].innerHTML = arr[1] || ''; // descrição
+  imgData = arr[2] || ''; // imagem dos horários
+  editables[2].innerHTML = arr[3] || ''; // título de contato
+  editables[3].innerHTML = arr[4] || ''; // info de contato
+
+  if (imgData.startsWith("data:image/")) {
+    previewImg.src = imgData;
+    previewImg.style.display = "block";
+  } else {
+    previewImg.style.display = "none";
+  }
+}
+}
+
+function saveChangesAndRedirect() {
+  const course = courseSelect.value;
+  const arr = [
+    editables[0].innerHTML, // título
+    editables[1].innerHTML, // descrição
+    editables[2].innerHTML, // contatos título
+    imgData,                // imagem dos horários
+    editables[3].innerHTML  // contatos info
+  ];
+  localStorage.setItem(`curso-${course}`, JSON.stringify(arr));
+  alert(`Alterações salvas para ${course}!`);
+
+  switch(course) {
+    case 'ANALISES': window.location.href = 'ANALISES.html'; break;
+    case 'AGRO-ECOLOGIA': window.location.href = 'AGRO-ECOLOGIA.html'; break;
+    case 'EDIFICACOES': window.location.href = 'EDIFICACOES.html'; break;
+    case 'INFORMATICA': window.location.href = 'INFORMATICA.html'; break;
+    case 'QUIMICA': window.location.href = 'QUIMICA.html'; break;
+  }
+}
+
+courseSelect.addEventListener('change', loadEditor);
+saveBtn.addEventListener('click', saveChangesAndRedirect);
+loadEditor();
+</script>
+
+</body>
+</html>

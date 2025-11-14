@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quimica</title>
+</head>
+<button onclick="irParaSelecao()">Tela de Seleção</button>
+<script src="scripts.js"></script>
+
+<body>
+    <style>
+ *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+   zoom: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #e6fcff, #f3fff5);
+  color: #333;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+header {
+  background-color: #e4f7fccc;
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  animation: fadeIn 1s ease;
+}
+
+header h1 {
+  font-size: 2.5em;
+  color: #2a3e69;
+}
+
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  background: #9cc0c7;
+  padding: 24px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background: #08b3d1;
+}
+
+section {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  animation: slideUp 0.8s ease;
+}
+
+section h2 {
+  margin-bottom: 20px;
+  color: #2a694c;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+button {
+  background-color: #00ffd5; 
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #00ffb3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+</style>
+</head>
+<body>
+    <header>
+    <h1>Quimica</h1>
+    <p style="font-size: 24px;">Técnico em Química – CETEP
+O curso técnico em Química do CETEP capacita profissionais para atuar em laboratórios, indústrias, estações de tratamento e centros de pesquisa. <br>
+ O aluno aprende a analisar substâncias, controlar qualidade e lidar com processos químicos com segurança. <br>
+ Pode trabalhar em setores como alimentos, cosméticos, petróleo, farmacêutica e meio ambiente. A Química está em tudo e o mercado é amplo. <br>
+ Atenção, responsabilidade e curiosidade científica são essenciais nessa área.</p>
+    </header>
+
+    <nav>
+        <a href="#info: Curso Analises">Informações</a>
+        <a href="#Horarios">Horarios</a>
+        <a href="#contados">Contatos</a>
+    </nav>
+    <section id="Informações">
+        <h2>Curso tecnico Quimica</h2>
+        <p style="font-size: 30px;"></p>
+
+
+    </section>
+   <section id="Horarios">
+  <h2>Horário das aulas</h2>
+  <p>Aqui está o quadro de horários:</p>
+  <img src="Img/" alt="Horário das aulas" style="width: 100%; max-width: 600px;">
+</section>
+
+
+    </section>
+    <section id="Contatos">
+        <h2>Contados</h2>
+
+    </section>
+</body>
+</html>
+</body>
+</html>

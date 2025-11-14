@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDIFICAÇOES</title>
+    <button onclick="irParaSelecao()">Tela de Seleção</button>
+<script src="scripts.js"></script>
+
+    <Style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+ *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  zoom: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #fff5e6, #fffaf3);
+  color: #333;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+header {
+  background-color: #fcf8e4cc;
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  animation: fadeIn 1s ease;
+}
+
+header h1 {
+  font-size: 2.5em;
+  color: #2a4d69;
+}
+
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  background: #c7b89c;
+  padding: 24px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background: #ff9900;
+}
+
+section {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  animation: slideUp 0.8s ease;
+}
+
+section h2 {
+  margin-bottom: 20px;
+  color: #2a4d69;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+button {
+  background-color: #ffc400; 
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #ff8800;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+    </Style>
+</head>
+<body>
+    <header>
+    <h1>EDIFICAÇOES</h1>
+    <p style="font-size: 24px;">Técnico em Edificações – CETEP
+O curso técnico em Edificações do CETEP prepara profissionais para atuar no planejamento,
+ execução e fiscalização de obras civis. <br>
+  O aluno aprende sobre leitura de projetos, materiais de construção, normas técnicas e segurança do trabalho. 
+   Pode trabalhar em construtoras, escritórios de engenharia, órgãos públicos e indústrias. <br>
+   A área tem grande demanda, acompanhando o crescimento da construção civil. <br>
+ Organização e atenção a detalhes são essenciais para garantir qualidade e segurança.</p>
+    </header>
+
+    <nav>
+        <a href="#info: Curso Edificações">Informações</a>
+        <a href="#Horarios">Horarios</a>
+        <a href="#contados">Contatos</a>
+    </nav>
+    <section id="Informações">
+        <h2>Curso tecnico Edificações</h2>
+
+
+    </section>
+    <section id="Horarios">
+    <h2 id="schedule-section-title">Horário das aulas</h2>
+    <!-- Aqui a imagem aparecerá -->
+    <img id="schedule-image" alt="Imagem de horários" style="display:none;">
+    <!-- Caso não tenha imagem, o texto aparece -->
+    <p id="schedule-section-text">Informações sobre horários...</p>
+    </section>
+    <section id="Contatos">
+        <h2>Contados</h2>
+
+    </section>
+    <script>
+    function loadCourseContent(courseName) {
+  const data = localStorage.getItem(`curso-${courseName}`);
+  if (!data) return;
+
+  const arr = JSON.parse(data);
+
+  // Atualiza título e descrições
+  document.getElementById('course-title').innerHTML = arr[0] || "Título do Curso";
+  document.getElementById('course-description').innerHTML = arr[1] || "Descrição do curso...";
+  document.getElementById('contact-section-title').innerHTML = arr[3] || "Contatos";
+  document.getElementById('contact-section-text').innerHTML = arr[4] || "Informações de contato...";
+
+  const imgElement = document.getElementById('schedule-image');
+  const textElement = document.getElementById('schedule-section-text');
+  const horarios = arr[2] || "";
+
+  // 🔥 Correção: remove aspas e espaços extras antes da verificação
+  const valorLimpo = horarios.trim().replace(/^"|"$/g, "");
+
+  if (valorLimpo.startsWith("data:image/")) {
+    // É imagem base64 → exibe como imagem
+    imgElement.src = valorLimpo;
+    imgElement.style.display = 'block';
+    textElement.style.display = 'none';
+  } else {
+    // Texto normal → mostra o texto
+    textElement.innerText = valorLimpo || "Informações sobre horários...";
+    textElement.style.display = 'block';
+    imgElement.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadCourseContent('EDIFICAÇOES');
+});
+</script>
+</body>
+</html>

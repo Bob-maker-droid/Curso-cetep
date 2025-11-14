@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos CETEP</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f6f5f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Cores do título */
+    .l1 { color: #ff0040; }
+    .l2 { color: #ff8800; }
+    .l3 { color: #00cf1c; }
+    .l4 { color: #008cff; }
+    .l5 { color: #000; }
+
+    h2 { color: #008cff; }
+    .fita { color: #008cff; }
+
+    /* Container principal */
+    .conteiner {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      position: relative;
+      overflow: hidden;
+      width: 90%;
+      max-width: 800px;
+      min-height: 480px;
+      transition: 0.5s ease;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    form {
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      height: 100%;
+    }
+
+    input {
+      background-color: #eee;
+      border: none;
+      padding: 12px 15px;
+      margin: 8px 0;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    button {
+      border-radius: 20px;
+      border: none;
+      background-color: #008cff;
+      margin-top: 20px;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #006fd6;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .painel {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: all 0.6s ease-in-out;
+      width: 50%;
+    }
+
+    .sign-in-conteiner {
+      left: 0;
+      z-index: 2;
+    }
+
+    .sign-up-conteiner {
+      left: 0;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .conteiner.right-panel-active .sign-up-conteiner {
+      transform: translateX(100%);
+      opacity: 1;
+      z-index: 5;
+    }
+
+    .conteiner.right-panel-active .sign-in-conteiner {
+      transform: translateX(100%);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .overlay-conteiner {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      background-color: #008cff;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.6s ease-in-out;
+      z-index: 100;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .conteiner.right-panel-active .overlay-conteiner {
+      transform: translateX(-100%);
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .conteiner {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+        min-height: 600px;
+      }
+
+      .painel, .overlay-conteiner {
+        position: relative;
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+
+      .overlay-conteiner {
+        background-color: transparent;
+        color: #008cff;
+        z-index: 1;
+      }
+
+      #Alice-avatar {
+        width: 250px;
+        left: auto;
+        right: auto;
+      }
+
+      #CETEP1 {
+        width: 80%;
+      }
+    }
+
+    /* Imagens */
+    #Alice-avatar {
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      width: 400px;
+      max-width: 45%;
+      height: auto;
+      z-index: 50;
+      animation: slideInLeft 2s ease forwards;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-150%); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    #CETEP1 {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      max-width: 80%;
+      height: auto;
+      z-index: 50;
+      opacity: 0;
+      animation: fadeSlideDown 2.5s ease forwards;
+    }
+
+    @keyframes fadeSlideDown {
+      from { transform: translate(-50%, -40px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    /* Ondas decorativas */
+    :root {
+      --orelha1-color: #ff6347;
+      --orelha2-color: #0084ff;
+      --orelha3-color: #4caf50;
+      --orelha4-color: #ff9800;
+    }
+
+    .orelha {
+      position: absolute;
+      border-radius: 4px;
+      opacity: 0.7;
+      height: 300px;
+      transform-origin: top right;
+      animation: waveMove 5s ease-in-out infinite;
+      filter: blur(2px);
+    }
+
+    .orelha1 { width: 3000px; background-color: var(--orelha1-color); top: 10px; right: -400px; transform: rotate(20deg); }
+    .orelha2 { width: 2500px; background-color: var(--orelha2-color); top: 10px; right: -650px; transform: rotate(20deg); animation-delay: 0.5s; }
+    .orelha3 { width: 2000px; background-color: var(--orelha3-color); top: 10px; right: -850px; transform: rotate(20deg); animation-delay: 1s; }
+    .orelha4 { width: 2500px; background-color: var(--orelha4-color); top: 10px; right: -1000px; transform: rotate(20deg); animation-delay: 1.5s; }
+
+    @keyframes waveMove {
+      0%, 100% { transform: rotate(20deg) translateY(0); }
+      25% { transform: rotate(22deg) translateY(-10px); }
+      75% { transform: rotate(18deg) translateY(10px); }
+    }
+  </style>
+</head>
+
+<body>
+  <img id="CETEP1" src="IMG1/CETEP.png" alt="Logo do CETEP">
+  <img id="Alice-avatar" src="IMG1/Alice.png" alt="Avatar Alice">
+
+  <div class="conteiner" id="conteiner">
+    <div class="painel sign-in-conteiner">
+      <form onsubmit="fazerLogin(event)">
+        <h1>
+          <span class="l1">C</span>
+          <span class="l2">E</span>
+          <span class="l3">T</span>
+          <span class="l4">E</span>
+          <span class="l5">P</span>
+        </h1>
+        <h2>Entrar</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginSenha" placeholder="Senha" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    
+    <div class="painel sign-up-conteiner">
+      <form onsubmit="registrarUsuario(event)">
+        <h1 class="fita">Registre-se</h1>
+        <input type="text" id="nome" placeholder="Nome" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="senha" placeholder="Senha" required>
+        <button type="submit">Registrar</button>
+      </form>
+    </div>
+
+    <div class="overlay-conteiner">
+      <button id="signIn">Já tenho conta</button>
+      <button id="signUp">Criar nova conta</button>
+    </div>
+  </div>
+
+  <div class="orelha orelha1"></div>
+  <div class="orelha orelha2"></div>
+  <div class="orelha orelha3"></div>
+  <div class="orelha orelha4"></div>
+
+  <script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const conteiner = document.getElementById('conteiner');
+    
+    signUpButton.addEventListener('click', () => {
+      conteiner.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+      conteiner.classList.remove("right-panel-active");
+    });
+
+    function registrarUsuario(event) {
+      event.preventDefault();
+      const nome = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value;
+
+      if (!nome || !email || !senha) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const existe = usuarios.find(u => u.email === email);
+
+      if (existe) {
+        alert("Esse email já está cadastrado!");
+        return;
+      }
+
+      usuarios.push({ nome, email, senha });
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      alert("Seja Bem-vindo(a), " + nome + "!");
+      conteiner.classList.remove("right-panel-active");
+    }
+
+    function fazerLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const senha = document.getElementById("loginSenha").value;
+
+      const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+
+      if (usuario) {
+        alert("Login bem-sucedido. Bem-vindo(a), " + usuario.nome + "!");
+        window.location.href = "Teladeseleção.html";
+      } else {
+        alert("Email ou senha incorretos.");
+      }
+    }
+  </script>
+</body>
+</html>

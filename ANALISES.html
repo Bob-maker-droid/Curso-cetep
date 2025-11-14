@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANÁLISES CLÍNICAS</title>
+<style>
+ *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+   zoom: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #e6ffe9, #f3fff5);
+  color: #333;
+  padding: 20px;
+  transition: all 0.3s ease;
+  
+}
+
+header {
+  background-color: #ebfce4cc;
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  animation: fadeIn 1s ease;
+}
+
+header h1 {
+  font-size: 2.5em;
+  color: #2a3e69;
+}
+
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  background: #9ca7c7;
+  padding: 24px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background: #0870d1;
+}
+
+section {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  animation: slideUp 0.8s ease;
+}
+
+section h2 {
+  margin-bottom: 20px;
+  color: #2a4369;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+button {
+  background-color: #4c7aaf; 
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #4574a0;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1 id="course-title">ANÁLISES CLÍNICAS</h1>
+    <p id="course-description">Descrição do curso...</p>
+</header>
+
+<nav>
+    <a href="#Informacoes">Informações</a>
+    <a href="#Horarios">Horários</a>
+    <a href="#Contatos">Contatos</a>
+</nav>
+
+<section id="Informacoes">
+    <h2>Informações</h2>
+    <p id="info-section-text">Detalhes sobre o curso...</p>
+</section>
+
+<section id="Horarios">
+    <h2 id="schedule-section-title">Horário das aulas</h2>
+    
+    <img id="schedule-image" alt="Imagem de horários" style="display:none;">
+    
+    <p id="schedule-section-text">Informações sobre horários...</p>
+</section>
+
+<section id="Contatos">
+    <h2 id="contact-section-title">Contatos</h2>
+    <p id="contact-section-text">Informações de contato...</p>
+</section>
+
+<script>
+function loadCourseContent(courseName) {
+  const data = localStorage.getItem(`curso-${courseName}`);
+  if (!data) return;
+
+  const arr = JSON.parse(data);
+
+  // Atualiza título e descrições
+  document.getElementById('course-title').innerHTML = arr[0] || "Título do Curso";
+  document.getElementById('course-description').innerHTML = arr[1] || "Descrição do curso...";
+  document.getElementById('contact-section-title').innerHTML = arr[3] || "Contatos";
+  document.getElementById('contact-section-text').innerHTML = arr[4] || "Informações de contato...";
+
+  const imgElement = document.getElementById('schedule-image');
+  const textElement = document.getElementById('schedule-section-text');
+  const horarios = arr[2] || "";
+
+ 
+  const valorLimpo = horarios.trim().replace(/^"|"$/g, "");
+
+  if (valorLimpo.startsWith("data:image/")) {
+    // É imagem base64 → exibe como imagem
+    imgElement.src = valorLimpo;
+    imgElement.style.display = 'block';
+    textElement.style.display = 'none';
+  } else {
+    // Texto normal → mostra o texto
+    textElement.innerText = valorLimpo || "Informações sobre horários...";
+    textElement.style.display = 'block';
+    imgElement.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadCourseContent('ANALISES');
+});
+</script>
+
+</body>
+</html>

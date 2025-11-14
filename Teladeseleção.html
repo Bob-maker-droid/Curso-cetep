@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cursos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      zoom: 35%;
+      margin: 0;
+      height: 100vh;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .info-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.9);
+      width: 150vw;
+      height: 150vh;
+      display: none;
+      justify-content: flex-start;
+      align-items: flex-start;
+      color: white;
+      z-index: 10;
+      padding: 20px;
+    }
+
+    #info-text {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 24px;
+      color: #f1f1f1;
+      max-width: 600px;
+      background-color: rgb(151, 146, 146);
+      box-shadow: #000 20px 20px 20px;
+      padding: 20px;
+      line-height: 1.6;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    @keyframes fadeSlideDown {
+      0% { opacity: 0; transform: translate(-50%, -20px); }
+      100% { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    #bahia-logo {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1200px;
+      height: auto;
+      z-index: 50;
+      animation: fadeSlideDown 4s ease forwards;
+    }
+
+    #info-text.show { opacity: 1; transform: translateY(0); }
+
+    .menu { position: relative; z-index: 20; }
+
+    :root {
+      --menu-button-size: 250px;
+      --menu-line-height: 250px;
+      --menu-font-size: 70px;
+      --menu-top: 800px;
+      --item-opacity: 0.9;
+      --overlay-width: 50000px;
+      --overlay-height: 50000px;
+      --tooltip-margin: 10px;
+    }
+
+    .menu-button, .menu-item {
+      background: #000;
+      color: white;
+      border-radius: 70%;
+      width: var(--menu-button-size);
+      height: var(--menu-button-size);
+      text-align: center;
+      line-height: var(--menu-line-height);
+      font-size: var(--menu-font-size);
+      position: absolute;
+      top: var(--menu-top);
+      left: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      cursor: pointer;
+      opacity: 50%;
+    }
+
+    .menu-item { opacity: 0; pointer-events: none; }
+    .menu.open .menu-item { opacity: var(--item-opacity); pointer-events: auto; }
+
+    .menu.open .item-1 { transform: translate(-470px, -0px); background: #ff9900; }
+    .menu.open .item-2 { transform: translate(470px, -0px); background: #0066ff; }
+    .menu.open .item-3 { transform: translate(160px, 470px); background: #e70000; }
+    .menu.open .item-4 { transform: translate(-290px, 470px); background: #01b628; }
+    .menu.open .item-5 { transform: translate(130px, -470px); background: #b3ff00; }
+    .menu.open .item-6 { transform: translate(-340px, -470px); background: #00c3ff; }
+    .menu.open .item-7 { transform: translate(500px, -400px); background: #e24b5f; }
+    .menu.open .item-8 { transform: translate(-800px, 400px); background: #ff0055; }
+
+    .hamburger-icon { transition: transform 1s ease; }
+    .menu.open .hamburger-icon { transform: rotate(360deg); }
+
+    .transition-overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: black;
+      border-radius: 50%;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 3s ease, height 3s ease;
+      pointer-events: none;
+    }
+
+    .transition-overlay.expand {
+      width: var(--overlay-width);
+      height: var(--overlay-height);
+    }
+
+    .tooltip-container { position: relative; display: inline-block; margin: var(--tooltip-margin); }
+
+    .tooltip {
+      font-size: 30px;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      position: fixed;
+      top: 100%;
+      left: 100%;
+      transform: translateX(-50%);
+      background-color: #b89f9f1a;
+      color: #5f6d79a1;
+      padding: 15px 10px;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+      z-index: 2000;
+    }
+
+    .tooltip-container:hover .tooltip { opacity: 1; }
+
+    #Alice-avatar2 {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      width: 1350px;
+      height: auto;
+      z-index: 50;
+      animation: slideInRight 2s ease forwards;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(150%); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Fundo animado */
+    .orelha { position: absolute; border-radius: 4px; transform-origin: top right; opacity: 0.8; }
+    @keyframes waveMove {
+      0%, 100% { transform: rotate(20deg) translateY(0); }
+      25% { transform: rotate(22deg) translateY(-10px); }
+      75% { transform: rotate(18deg) translateY(10px); }
+    }
+    .orelha1 { width: 6000px; height: 1100px; background: #ff6347; top: 10px; right: -400px; animation: waveMove 5s ease-in-out infinite; }
+    .orelha2 { width: 5000px; height: 1000px; background: #0084ff; top: 10px; right: -650px; animation: waveMove 5s ease-in-out infinite .5s; }
+    .orelha3 { width: 4000px; height: 800px; background: #4caf50; top: 10px; right: -850px; animation: waveMove 5s ease-in-out infinite 1s; }
+    .orelha4 { width: 3000px; height: 600px; background: #ff9800; top: 10px; right: -1000px; animation: waveMove 5s ease-in-out infinite 1.5s; }
+
+  
+:root {
+  /* Controladores gerais */
+  --angulo-geral: 40deg;
+  --pos-bottom: 1500px;
+  --pos-left: 10%;
+
+  /* Escalas */
+  --scale: 5;
+  --yellow-scale: 1.5;
+  --green-scale: 0.9;
+  --blue-scale: 0.5;
+  --red-scale: 1;
+
+  /* Tamanhos base */
+  --yellow-width: 450px;
+  --yellow-height: 60px;
+  --yellow-opacity: 0.9;
+
+  --green-width: 350px;
+  --green-height: 60px;
+  --green-opacity: 0.9;
+
+  --blue-width: 850px;
+  --blue-height: 60px;
+  --blue-opacity: 0.9;
+
+  --red-width: 200px;
+  --red-height: 60px;
+  --red-opacity: 0.9;
+}
+
+/* container principal */
+.diagonal-lines {
+  position: absolute;
+  bottom: var(--pos-bottom);
+  left: var(--pos-left);
+  transform: translateX(-50%) rotate(var(--angulo-geral)) scale(var(--scale));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  transform-origin: center;
+  z-index: 0;
+}
+
+/* base para todas as faixas */
+.line {
+  border-radius: 40px;
+  display: block;
+  animation: waveMotion 5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* faixas individuais */
+.yellow {
+  width: calc(var(--yellow-width) * var(--yellow-scale));
+  height: calc(var(--yellow-height) * var(--yellow-scale));
+  opacity: var(--yellow-opacity);
+  background-color: #fbbc04;
+  animation-delay: 0s;
+}
+
+.green {
+  width: calc(var(--green-width) * var(--green-scale));
+  height: calc(var(--green-height) * var(--green-scale));
+  opacity: var(--green-opacity);
+  background-color: #34a853;
+  animation-delay: 0.3s;
+}
+
+.blue {
+  width: calc(var(--blue-width) * var(--blue-scale));
+  height: calc(var(--blue-height) * var(--blue-scale));
+  opacity: var(--blue-opacity);
+  background-color: #4285f4;
+  animation-delay: 0.6s;
+}
+
+.red {
+  width: calc(var(--red-width) * var(--red-scale));
+  height: calc(var(--red-height) * var(--red-scale));
+  opacity: var(--red-opacity);
+  background-color: #ff8577;
+  animation-delay: 0.9s;
+}
+
+/* ANIMAÇÃO FLUIDA DE ONDA + "RESPIRAÇÃO" */
+@keyframes waveMotion {
+  0%, 100% {
+    transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+  }
+  20% {
+    transform: translateX(15px) translateY(-5px) scale(1.03, 0.97) rotate(1deg);
+  }
+  40% {
+    transform: translateX(-10px) translateY(8px) scale(0.98, 1.04) rotate(-1deg);
+  }
+  60% {
+    transform: translateX(12px) translateY(-6px) scale(1.02, 0.98) rotate(0.8deg);
+  }
+  80% {
+    transform: translateX(-8px) translateY(4px) scale(0.99, 1.03) rotate(-0.5deg);
+  }
+}
+
+
+
+  </style>
+
+</head>
+<body>
+  <div class="diagonal-lines">
+  <span class="line red"></span>
+  <span class="line blue"></span>
+  <span class="line green"></span>
+  <span class="line yellow"></span>
+</div>
+
+
+  <img id="Alice-avatar2" src="IMG1/Alice2.png" alt="Logo da Bahia">
+  <div class="info-box" id="info-box"><p id="info-text">Texto sobre o curso</p></div>
+  <img id="bahia-logo" src="IMG1/Bahia.png" alt="Logo da Bahia">
+  <div class="transition-overlay" id="transition-overlay"></div>
+
+  <nav class="menu" id="menu">
+    <div class="menu-button" id="menu-button"><i class="fa-solid fa-list hamburger-icon" id="hamburger-icon"></i></div>
+    <div class="tooltip-container"><a href="EDIFICAÇOES.html" class="menu-item item-1"><span class="tooltip">Edificações</span><i class="fa-solid fa-house fa-bounce"></i></a></div>
+    <div class="tooltip-container"><a href="ANALISES.html" class="menu-item item-2"><span class="tooltip">Análises</span><i class="fa-solid fa-hospital fa-bounce"></i></a></div>
+    <div class="tooltip-container"><a href="INFORMATICA.html" class="menu-item item-3"><span class="tooltip">Informática</span><i class="fa-solid fa-computer fa-bounce"></i></a></div>
+    <div class="tooltip-container"><a href="NUTRICAO.html" class="menu-item item-4"><span class="tooltip">Nutrição</span><i class="fa-solid fa-burger fa-bounce"></i></a></div>
+    <div class="tooltip-container"><a href="AGRO-ECOLOGIA.html" class="menu-item item-5"><span class="tooltip">Agroecologia</span><i class="fa-solid fa-seedling fa-bounce"></i></a></div>
+    <div class="tooltip-container"><a href="QUIMICA.html" class="menu-item item-6"><span class="tooltip">Química</span><i class="fa-solid fa-ruler-vertical fa-shake"></i></a></div>
+    <div class="tooltip-container"><a href="Informaçoes.html" class="menu-item item-7"><span class="tooltip">Horário de Aulas</span><i class="fa-regular fa-file fa-bounce"></i></a></div>
+    <div class="tooltip-container"><a href="Chat_alice.html" class="menu-item item-8"><span class="tooltip">Alice</span><i class="fa-solid fa-person fa-bounce"></i></a></div>
+  </nav>
+
+  <div class="orelha orelha1"></div>
+  <div class="orelha orelha2"></div>
+  <div class="orelha orelha3"></div>
+  <div class="orelha orelha4"></div>
+
+  <script>
+    const menu = document.getElementById('menu');
+    const button = document.getElementById('menu-button');
+    const overlay = document.getElementById('transition-overlay');
+
+    button.addEventListener('click', () => menu.classList.toggle('open'));
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.preventDefault();
+        overlay.style.background = window.getComputedStyle(item).backgroundColor;
+        overlay.classList.add('expand');
+        setTimeout(() => window.location.href = item.href, 700);
+      });
+    });
+
+    // PLAYER DE VÍDEO ISOLADO
+const videoPaths = [
+  "videos/CETEP1.mp4",
+  "videos/CETEP2.mp4",
+  "videos/CETEP3.mp4",
+  "videos/CETEP4.mp4",
+  "videos/CETEP5.mp4",
+  "videos/CETEP6.mp4",
+];
+
+const videoWrapper = document.createElement("div");
+videoWrapper.style.position = "fixed";
+// 🔹 ALTERADO: movi um pouco mais pro centro e aumentei o tamanho visual
+videoWrapper.style.top = "50%";
+videoWrapper.style.left = "10%"; // antes era 15%
+videoWrapper.style.transform = "translate(-50%, -50%)";
+videoWrapper.style.zIndex = "9999";
+document.body.appendChild(videoWrapper);
+
+const shadow = videoWrapper.attachShadow({ mode: "open" });
+const style = document.createElement("style");
+style.textContent = `
+  .video-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+    transition: width 0.4s ease, height 0.4s ease;
+    background-color: black;
+    /* 🔹 ALTERADO: tamanho base aumentado */
+    width: 1400px;
+    height: 700px;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: none;
+  }
+`;
+shadow.appendChild(style);
+
+const videoContainer = document.createElement("div");
+videoContainer.classList.add("video-container");
+shadow.appendChild(videoContainer);
+
+const videoA = document.createElement("video");
+const videoB = document.createElement("video");
+
+[videoA, videoB].forEach(v => {
+  v.autoplay = false;
+  v.muted = false;
+  v.loop = false;
+  v.playsInline = true;
+  v.controls = false;
+  videoContainer.appendChild(v);
+});
+
+let currentIndex = 0;
+let activeVideo = videoA;
+let nextVideo = videoB;
+
+function adjustVideoSize(video) {
+  const { videoWidth, videoHeight } = video;
+  if (videoWidth && videoHeight) {
+    const aspectRatio = videoWidth / videoHeight;
+    // 🔹 ALTERADO: aumentei o tamanho padrão pra 960×540
+    let width = 1400;
+    let height = 700;
+
+    if (aspectRatio > 1.8) {
+      width = 1080; height = 600;
+    } else if (aspectRatio < 1.3) {
+      width = 720; height = 960;
+    }
+
+    videoContainer.style.width = `${width}px`;
+    videoContainer.style.height = `${height}px`;
+  }
+}
+
+function playVideo(index) {
+  const videoPath = videoPaths[index];
+  activeVideo.src = videoPath;
+  activeVideo.style.display = "block";
+
+  // 🔹 Remove botões antigos (caso o vídeo anterior tenha deixado algum)
+  const oldBtn = shadow.querySelector("#pauseBtn");
+  if (oldBtn) oldBtn.remove();
+
+  // 🔹 Cria botão de pause/play
+  const pauseBtn = document.createElement("button");
+  pauseBtn.id = "pauseBtn";
+  pauseBtn.textContent = "⏸️"; // começa como "Pause"
+  pauseBtn.style.cssText = `
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 10000;
+  `;
+  pauseBtn.onmouseenter = () => (pauseBtn.style.background = "rgba(255,255,255,0.2)");
+  pauseBtn.onmouseleave = () => (pauseBtn.style.background = "rgba(0,0,0,0.6)");
+
+  shadow.appendChild(pauseBtn);
+
+  pauseBtn.addEventListener("click", () => {
+    if (activeVideo.paused) {
+      activeVideo.play();
+      pauseBtn.textContent = "⏸️";
+    } else {
+      activeVideo.pause();
+      pauseBtn.textContent = "▶️";
+    }
+  });
+
+  activeVideo.onloadedmetadata = () => {
+    adjustVideoSize(activeVideo);
+    const tryPlay = activeVideo.play();
+    if (tryPlay) {
+      tryPlay.catch(() => {
+        const msg = document.createElement("div");
+        msg.textContent = "▶ Clique para iniciar o vídeo com som";
+        msg.style.cssText = `
+          position: absolute; inset: 0; display:flex; justify-content:center;
+          align-items:center; background:rgba(0,0,0,0.7); color:white;
+          font-size:32px; cursor:pointer;
+        `;
+        shadow.appendChild(msg);
+        msg.addEventListener("click", () => {
+          msg.remove();
+          activeVideo.play();
+        });
+      });
+    }
+  };
+
+  activeVideo.onended = () => {
+    activeVideo.style.display = "none";
+    pauseBtn.remove();
+    const temp = activeVideo;
+    activeVideo = nextVideo;
+    nextVideo = temp;
+    currentIndex = (index + 1) % videoPaths.length;
+    playVideo(currentIndex);
+  };
+}
+
+// inicia o primeiro vídeo
+playVideo(currentIndex);
+
+
+  </script>
+</body>
+</html> 
