@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANÁLISES CLÍNICAS</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analises Clinicas</title>
+    <button onclick="irParaSelecao()">Tela de Seleção</button>
+<script src="scripts.js"></script>
+
+</head>
+<body>
+    <style>
  *{
   margin: 0;
   padding: 0;
@@ -12,13 +17,11 @@
 }
 
 body {
-   zoom: 100%;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #e6ffe9, #f3fff5);
+  background: linear-gradient(to right, #e6fff9, #f3fff5);
   color: #333;
   padding: 20px;
   transition: all 0.3s ease;
-  
 }
 
 header {
@@ -48,7 +51,7 @@ nav {
 nav a {
   text-decoration: none;
   color: #fff;
-  background: #9ca7c7;
+  background: #3999e7;
   padding: 24px 24px;
   border-radius: 8px;
   font-weight: 700;
@@ -56,7 +59,7 @@ nav a {
 }
 
 nav a:hover {
-  background: #0870d1;
+  background: #3408d1;
 }
 
 section {
@@ -69,7 +72,7 @@ section {
 
 section h2 {
   margin-bottom: 20px;
-  color: #2a4369;
+  color: #2a4769;
 }
 
 footer {
@@ -89,7 +92,7 @@ footer {
   to { opacity: 1; transform: translateY(0); }
 }
 button {
-  background-color: #4c7aaf; 
+  background-color: #0373db; 
   color: white;
   padding: 12px 24px;
   border: none;
@@ -101,7 +104,7 @@ button {
 }
 
 button:hover {
-  background-color: #4574a0;
+  background-color: #003cff;
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
@@ -113,73 +116,50 @@ button:active {
 </style>
 </head>
 <body>
+    <header>
+    <h1>Analises Clinicas</h1>
+    <p style="font-size: 24px;">Técnico em Análises Clínicas – CETEP
+O curso técnico em Análises Clínicas do CETEP forma profissionais capacitados para atuar em laboratórios de saúde,
+ realizando exames que auxiliam no diagnóstico, prevenção e acompanhamento de doenças.
+O aluno aprende desde a coleta de materiais biológicos (como sangue, urina e secreções) 
+até a preparação de amostras, uso de equipamentos laboratoriais e interpretação básica de resultados
+</p>
+    </header>
 
-<header>
-    <h1 id="course-title">ANÁLISES CLÍNICAS</h1>
-    <p id="course-description">Descrição do curso...</p>
-</header>
+    <nav>
+        <a href="#info: Curso Analises">Informações</a>
+        <a href="#Horarios">Horarios</a>
+        <a href="#contados">Contatos</a>
+    </nav>
+    <section id="Informações">
+        <h2>Curso tecnico Analises</h2>
+        <p style="font-size: 30px;">Técnico em Análises Clínicas
 
-<nav>
-    <a href="#Informacoes">Informações</a>
-    <a href="#Horarios">Horários</a>
-    <a href="#Contatos">Contatos</a>
-</nav>
+O que é: Curso técnico na área de saúde laboratorial, formando profissionais para atuar em laboratórios clínicos, hospitais, clínicas e postos de saúde, realizando exames e análises biológicas para diagnóstico. <br> 
 
-<section id="Informacoes">
-    <h2>Informações</h2>
-    <p id="info-section-text">Detalhes sobre o curso...</p>
-</section>
+Áreas de atuação: laboratórios de análises clínicas, laboratórios de pesquisa, centros de saúde, hospitais e indústrias que necessitam de controle laboratorial. <br>
 
-<section id="Horarios">
-    <h2 id="schedule-section-title">Horário das aulas</h2>
-    
-    <img id="schedule-image" alt="Imagem de horários" style="display:none;">
-    
-    <p id="schedule-section-text">Informações sobre horários...</p>
-</section>
+Perfil do profissional: realiza coleta de amostras biológicas, processa e prepara amostras, executa testes em hematologia, bioquímica, microbiologia, imunologia, urinálise, e opera equipamentos laboratoriais. <br>
 
-<section id="Contatos">
-    <h2 id="contact-section-title">Contatos</h2>
-    <p id="contact-section-text">Informações de contato...</p>
-</section>
+Competências: uso de técnicas laboratoriais, controle de qualidade, biossegurança, descarte de resíduos biológicos, interpretação de resultados, além de ética profissional. <br>
 
-<script>
-function loadCourseContent(courseName) {
-  const data = localStorage.getItem(`curso-${courseName}`);
-  if (!data) return;
+Carga horária: por exemplo, no IEC é de aproximadamente 1.224 horas, com estágio supervisionado incluído. <br>
 
-  const arr = JSON.parse(data);
+</p>
 
-  // Atualiza título e descrições
-  document.getElementById('course-title').innerHTML = arr[0] || "Título do Curso";
-  document.getElementById('course-description').innerHTML = arr[1] || "Descrição do curso...";
-  document.getElementById('contact-section-title').innerHTML = arr[3] || "Contatos";
-  document.getElementById('contact-section-text').innerHTML = arr[4] || "Informações de contato...";
 
-  const imgElement = document.getElementById('schedule-image');
-  const textElement = document.getElementById('schedule-section-text');
-  const horarios = arr[2] || "";
+    </section>
+    <section id="Horarios">
+        <h2>Horario das aulas</h2>
+        <p> 
+</p>
 
- 
-  const valorLimpo = horarios.trim().replace(/^"|"$/g, "");
+    </section>
+    <section id="Contatos">
+        <h2>Contados</h2>
 
-  if (valorLimpo.startsWith("data:image/")) {
-    // É imagem base64 → exibe como imagem
-    imgElement.src = valorLimpo;
-    imgElement.style.display = 'block';
-    textElement.style.display = 'none';
-  } else {
-    // Texto normal → mostra o texto
-    textElement.innerText = valorLimpo || "Informações sobre horários...";
-    textElement.style.display = 'block';
-    imgElement.style.display = 'none';
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadCourseContent('ANALISES');
-});
-</script>
-
+    </section>
+</body>
+</html>
 </body>
 </html>
