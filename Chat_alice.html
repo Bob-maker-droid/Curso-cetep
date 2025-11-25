@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Chatbot Alice</title>
+
   <style>
     body {
-      zoom: 140%;
+      zoom: 100%;
       font-family: "Segoe UI", Arial, sans-serif;
       background: linear-gradient(135deg, #cbb2ff, #ffe3ec);
       display: flex;
@@ -16,19 +17,44 @@
     }
 
     .chat-container {
-      width: 380px;
-      height: 520px;
-      background: #ffffffb5;
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
+  width: 860px;
+  height: 720px;
+  background: #ffffffb5;
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  overflow: hidden;
+  animation: fadeIn 1s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+
+    /* CABEÇALHO */
+    .header {
       display: flex;
-      flex-direction: column;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      overflow: hidden;
-      animation: fadeIn 1s ease;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      align-items: center;
+      gap: 10px;
+      background: #ffffffcc;
+      padding: 10px 15px;
+      border-bottom: 1px solid #ddd;
     }
 
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #4a006e;
+    }
+
+    /* CHAT */
     .chat-box {
       flex: 1;
       padding: 15px;
@@ -39,7 +65,7 @@
     }
 
     .message {
-      max-width: 75%;
+      max-width: 90%;
       margin: 6px 0;
       padding: 12px 14px;
       border-radius: 14px;
@@ -135,18 +161,33 @@
       border-radius: 50%;
       animation: blink 1.2s infinite;
     }
+
     .dot:nth-child(2) { animation-delay: 0.2s; }
     .dot:nth-child(3) { animation-delay: 0.4s; }
 
   </style>
 </head>
 <body>
+
+ <button class="nav-btn prev" onclick="history.back()">
+  &#10094;
+</button>
+
   <div class="chat-container">
+
+    <!-- CABEÇALHO AQUI -->
+    <div class="header">
+      <img src="IMG1/Alice3.png" class="avatar">
+      <span class="title">Eu Alice</span>
+    </div>
+
     <div class="chat-box" id="chat-box"></div>
+
     <div class="input-box">
       <input type="text" id="user-input" placeholder="Digite algo para Alice...">
       <button onclick="sendMessage()">Enviar</button>
     </div>
+
   </div>
 
   <script>
@@ -160,25 +201,29 @@
       appendMessage(message, "user");
       input.value = "";
 
-      // Mostra indicador de digitação
+      // Indicador de digitação
       const typing = document.createElement("div");
       typing.className = "message bot typing";
       typing.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
       chatBox.appendChild(typing);
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      // Simula atraso de resposta
+      // Requisição ao servidor
       const response = await fetch("http://127.0.0.1:5000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
       });
+
       const data = await response.json();
 
-      // Remove o indicador
+      // Remove "digitando..."
       typing.remove();
 
-      appendMessage(data.response, "bot");
+      // Aguarda 3 segundos
+      setTimeout(() => {
+        appendMessage(data.response, "bot");
+      }, 3000);
     }
 
     function appendMessage(text, sender) {
@@ -189,10 +234,10 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Enviar com Enter
     input.addEventListener("keypress", e => {
       if (e.key === "Enter") sendMessage();
     });
   </script>
+
 </body>
 </html>
